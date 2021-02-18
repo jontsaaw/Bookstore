@@ -24,7 +24,7 @@ public class BookController {
     public String bookstore() {
         return "index";
     }
-	@RequestMapping(value = "/books", method = RequestMethod.GET)
+	@RequestMapping(value = "/booklist", method = RequestMethod.GET)
 	public String getBooks (Model model) {
 		List<Book> books = (List<Book>) bookRepository.findAll();
 		model.addAttribute("books", books);
@@ -33,10 +33,10 @@ public class BookController {
 
 }
 	
-		@RequestMapping(value = "/newbook", method = RequestMethod.GET)
+		@RequestMapping(value = "/addbook", method = RequestMethod.GET)
 		public String getNewCarForm(Model model) {
 			model.addAttribute("book", new Book()); 
-			return "bookform";
+			return "addbook";
 		}
 
 		
@@ -44,17 +44,21 @@ public class BookController {
 		public String saveBook(@ModelAttribute Book book) {
 			
 			bookRepository.save(book);
-			return "redirect:/books";
+			return "redirect:/booklist";
 		}
 
 		
-		@RequestMapping(value = "/deleteBook/{id}", method = RequestMethod.GET)
-		public String deleteBook(@PathVariable("id") Long bookId) {
-			bookRepository.deleteById(bookId);
-			return "redirect:../books";
+		@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+		public String deleteBook(@PathVariable("id") Long id) {
+			bookRepository.deleteById(id);
+			return "redirect:../booklist";
 		}
 		
-		
+		@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+		public String editBook(@PathVariable("id") Long id, Model model) {
+			model.addAttribute("book", bookRepository.findById(id).get());
+			return "editbook";
+		}
 		
 
 	}
