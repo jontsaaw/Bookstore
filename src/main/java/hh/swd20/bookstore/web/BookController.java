@@ -32,22 +32,22 @@ public class BookController {
 	
 
 }
-	// tyhjän autolomakkeen muodostaminen
+	
 		@RequestMapping(value = "/newbook", method = RequestMethod.GET)
 		public String getNewCarForm(Model model) {
-			model.addAttribute("book", new Book()); // "tyhjä" auto-olio
+			model.addAttribute("book", new Book()); 
 			return "bookform";
 		}
 
-		// autolomakkeella syötettyjen tietojen vastaanotto ja tallennus
+		
 		@RequestMapping(value = "/savebook", method = RequestMethod.POST)
 		public String saveBook(@ModelAttribute Book book) {
-			// talletetaan yhden auton tiedot tietokantaan
+			
 			bookRepository.save(book);
 			return "redirect:/books";
 		}
 
-		// auton poisto
+		
 		@RequestMapping(value = "/deleteBook/{id}", method = RequestMethod.GET)
 		public String deleteBook(@PathVariable("id") Long bookId) {
 			bookRepository.deleteById(bookId);
